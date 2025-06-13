@@ -1,0 +1,8 @@
+`ifndef PARAMETERS_FILE
+`define PARAMETERS_FILE
+`define PYTEST_GENERATED_PARAMS
+`define N_ACTS 32
+`define N_WEIGHTS 3
+`define DATA_BITS 8
+`define PE_RF_NUM_REGISTER 32
+`endif // PARAMETERS_FILE

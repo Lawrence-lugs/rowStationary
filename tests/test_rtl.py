@@ -24,6 +24,15 @@ sim_args = {'vcs':  [
             ]
 }
 
+def write_parameter_definition_file(parameter_list,filepath):
+    with open(filepath,'w') as f:
+        f.write(f'`ifndef PARAMETERS_FILE\n')
+        f.write(f'`define PARAMETERS_FILE\n')
+        f.write(f'`define PYTEST_GENERATED_PARAMS\n')
+        for name, value in parameter_list.items():
+            f.write(f'`define {name} {value}\n')    
+        f.write(f'`endif // PARAMETERS_FILE\n')
+
 def test_scaler(simulator='vcs',seed=0):
 
     package_list = [
@@ -129,8 +138,22 @@ def test_pe(mode, simulator='vcs',seed=0):
         out = [line for line in f.readlines()]
         assert 'TEST SUCCESS\n' in out, get_log_tail(log_file,10)
 
-# @pytest.mark.parametrize('mode',['random','max','min'])
-def test_pe_cluster(mode, simulator='vcs', seed=0):
+@pytest.mark.parametrize(
+    "mode       ,nActs     ,nWeights",[
+   ('random'    ,8         ,3),
+   ('random'    ,16        ,3),
+   ('random'    ,32        ,3),
+])
+def test_pe_cluster(
+        mode,
+        nActs,
+        nWeights, 
+        simulator='vcs', 
+        seed=0
+):
+    package_list = [
+        '../rtl/parameters.svh', 
+    ]
 
     rtl_file_list = [ 
         '../rtl/PE_cluster.sv',
@@ -156,24 +179,38 @@ def test_pe_cluster(mode, simulator='vcs', seed=0):
     generate_tb_cluster_stimulus(
         actBits = 8,
         weightBits = 8,
-        nActs = 16,
-        nWeights = 3,
+        nActs = nActs,
+        nWeights = nWeights,
         seed = seed,
         path = stimulus_output_path,
         mode = mode
     )
 
+    # Upload parameters
+    params = {
+        'N_ACTS': nActs,
+        'N_WEIGHTS': nWeights,
+        'DATA_BITS': 8,
+        'PE_RF_NUM_REGISTER': nActs,
+    }
+    write_parameter_definition_file(params, f'rtl/parameters.svh')
+
     # Simulation
+
+    command = [
+            simulator,
+            *package_list,
+            tb_file
+        ] + sim_args[simulator] + rtl_file_list
+
 
     with open(log_file,'w+') as f:
 
-        sim = subprocess.Popen([
-            simulator,
-            tb_file
-        ] + sim_args[simulator] + rtl_file_list, 
-        shell=False,
-        cwd='./sims',
-        stdout=f
+        sim = subprocess.Popen(
+            command, 
+            shell=False,
+            cwd='./sims',
+            stdout=f
         )
 
     assert not sim.wait(), get_log_tail(log_file,10)

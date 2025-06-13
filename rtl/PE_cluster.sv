@@ -84,7 +84,8 @@ generate
     for (x = 0; x < numPeX; x = x+1) begin : PeArrayX
         for (y = 0; y < numPeY; y = y+1) begin : PeArrayY
             PE #(
-                .dataSize       (dataSize)
+                .dataSize       (dataSize),
+                .rfNumRegister  (rfNumRegister)
             ) u_pe (
                 .clk            (clk),
                 .nrst           (nrst),

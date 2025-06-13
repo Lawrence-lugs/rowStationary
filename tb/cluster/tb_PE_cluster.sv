@@ -3,17 +3,17 @@
 module tb_PE_cluster;
 
 // Parameters of layer
-parameter nActs = 16;
-parameter nWeights = 3;
+parameter nActs = `N_ACTS;
+parameter nWeights = `N_WEIGHTS;
 
 // Parameters for DUT
 localparam numPeX = nActs - nWeights + 1;
 localparam numPeY = nWeights;
 parameter interfaceSize = 64;
-parameter dataSize = 8;
+parameter dataSize = `DATA_BITS;
 parameter wSpadNReg = 16;
 parameter aSpadNReg = 16;
-parameter rfNumRegister = 16;
+parameter rfNumRegister = `PE_RF_NUM_REGISTER;
 parameter idSize = 8;
 parameter addrSize = 16;
 localparam multResSize = dataSize*2;

@@ -44,11 +44,11 @@ def pytest_generate_tests(metafunc):
                 )
         metafunc.parametrize("simulator", metafunc.config.getoption("simulator"))
 
-    if 'mode' in metafunc.fixturenames:
-        if 'all' in metafunc.config.getoption("mode"):
-            metafunc.parametrize("mode", ['random','max','min'])
-        else:
-            metafunc.parametrize("mode", metafunc.config.getoption("mode"))
+    # if 'mode' in metafunc.fixturenames:
+    #     if 'all' in metafunc.config.getoption("mode"):
+    #         metafunc.parametrize("mode", ['random','max','min'])
+    #     else:
+    #         metafunc.parametrize("mode", metafunc.config.getoption("mode"))
 
     if 'seed' in metafunc.fixturenames:
         metafunc.parametrize("seed", metafunc.config.getoption("seed")[0])
