@@ -1,8 +1,50 @@
+# Simulation and synthesis outputs
 DVEfiles
 mapped
 sims
 synth
+*synlibs*
+
+# Build and execution files
 *.sh
 tests/logs
 *__pycache__*
-*synlibs*
+.env
+
+# Temporary and backup files
+*scratch*
+*~
+.*.swp
+.*.swo
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-*
+
+# Common build outputs
+build/
+dist/
+*.o
+*.out
+*.log
+
+# Python specific
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+
+# System specific
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+vendor/
+
+# Scratch notebooks
+*scratch*
