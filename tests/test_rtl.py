@@ -154,8 +154,8 @@ def test_pe_cluster(mode, simulator='vcs', seed=0):
     from tests.stim_lib.stimulus_gen import generate_tb_cluster_stimulus
 
     generate_tb_cluster_stimulus(
-        actBits = 3,
-        weightBits = 3,
+        actBits = 8,
+        weightBits = 8,
         nActs = 16,
         nWeights = 3,
         seed = seed,

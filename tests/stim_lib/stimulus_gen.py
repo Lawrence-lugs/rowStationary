@@ -76,8 +76,6 @@ def generate_tb_cluster_stimulus(
         w = np.full((nWeights, nWeights), weight_value)
         o = convolve2d(a,w[::-1].T[::-1].T,mode='valid')
 
-    
-
     print(f'PE cluster must be {nOuts} PEs wide and {nWeights} PEs high ')
 
     ids_acts = np.zeros((nOuts+1,nWeights))
@@ -100,6 +98,13 @@ def generate_tb_cluster_stimulus(
     for i in range(nWeights):
         tag_order_weights.append([0,i])
     tag_order_weights = np.array(tag_order_weights)
+
+    print("=============== A =================")
+    print(a)
+    print("=============== W =================")
+    print(w)
+    print("=============== O =================")
+    print(o)
 
     np.savetxt(path + '/a.txt',a,'%i')
     np.savetxt(path + '/w.txt',w,'%i')
